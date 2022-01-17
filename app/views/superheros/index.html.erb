@@ -1,6 +1,58 @@
 <div class="container pt-4">
-  <%= form_for(@superhero), method: :get %>
-    <%= f.input :name %>
-    <%= f.button :submit %>
+  <%= form_tag superhero_path, method: :get do %>
+    <div class="form-group row">
+      <div class="col-9">
+        <%= text_field_tag :superhero, params[:superhero], placeholder: 'Superhero', class: 'form-control form-control-lg' %>
+      </div>
+      <div class="col-3">
+        <%= button_tag type: :submit, class: 'btn btn-primary' do %>
+          <%= "Search" %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <% if @superhero %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Intelligence</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= @superhero.name %></td>
+          <td><%= @superhero.intelligence %></td>
+          <td><%= link_to 'Save Superhero',
+          superheros_path(name: @superhero.name, intelligence: @superhero.intelligence),
+          method: :post, class: 'btn btn-success' %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% if !@superheros.empty %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Intelligence</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @superheros.each do |superhero| %>
+          <tr>
+            <td><%= superhero.name %></td>
+            <td><%= superhero.intelligence %></td>
+            <td><%= link_to 'Save Superhero',
+            superheros_path(name: @superhero.name, intelligence: @superhero.intelligence),
+            method: :delete, class: 'btn btn-success' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% end %>
 </div>
